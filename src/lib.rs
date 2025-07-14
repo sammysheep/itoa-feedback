@@ -11,6 +11,18 @@ mod bench {
         use super::*;
 
         #[bench]
+        fn boxit(b: &mut Bencher) {
+            b.iter(|| {
+                for num in (1..=usize::MAX.ilog10())
+                    .map(|exp| 10usize.pow(exp) - 1)
+                    .chain(std::iter::once(usize::MAX))
+                {
+                    let _s = black_box(Box::new(num));
+                }
+            });
+        }
+
+        #[bench]
         fn std1(b: &mut Bencher) {
             b.iter(|| {
                 for num in (1..=usize::MAX.ilog10())
@@ -65,6 +77,15 @@ mod bench {
         use super::*;
 
         #[bench]
+        fn boxit(b: &mut Bencher) {
+            b.iter(|| {
+                for num in 0..1000usize {
+                    let _s = black_box(Box::new(num));
+                }
+            });
+        }
+
+        #[bench]
         fn std1(b: &mut Bencher) {
             b.iter(|| {
                 for num in 0..1000usize {
@@ -105,6 +126,15 @@ mod bench {
 
     mod first_9 {
         use super::*;
+
+        #[bench]
+        fn boxit(b: &mut Bencher) {
+            b.iter(|| {
+                for num in 0..10usize {
+                    let _s = black_box(Box::new(num));
+                }
+            });
+        }
 
         #[bench]
         fn std1(b: &mut Bencher) {
